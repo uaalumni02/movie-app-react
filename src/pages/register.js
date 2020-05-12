@@ -17,12 +17,11 @@ import {
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [InvalidLogin, setInvalidLogin] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`${settings.apiBaseUrl}/api/user/login`, {
+    fetch(`${settings.apiBaseUrl}/api/user/`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -34,17 +33,9 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
-        if (
-          response.success === false ||
-          response.data.user.role === "standard"
-        ) {
-          setInvalidLogin("Invalid username or password");
-        } else {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", response.data.user._id);
-          setLoggedIn(true);
-        }
+        localStorage.setItem("token", response.userdata.token);
+        localStorage.setItem("user", response.userdata._id);
+        setLoggedIn(true);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -61,7 +52,7 @@ const Login = () => {
             <MDBCardBody className="mx-4">
               <div className="text-center">
                 <h3 className="dark-grey-text mb-5">
-                  <strong>Sign in</strong>
+                  <strong>Register</strong>
                 </h3>
               </div>
               <MDBInput
@@ -83,14 +74,7 @@ const Login = () => {
                 validate
                 containerClass="mb-0"
               />
-              <p className="font-small blue-text d-flex justify-content-end pb-3">
-                Forgot
-                <a href="#!" className="blue-text ml-1">
-                  Password?
-                </a>
-              </p>
               <div className="text-center mb-3">
-                <p>{InvalidLogin}</p>
                 <MDBBtn
                   type="submit"
                   gradient="blue"
@@ -98,7 +82,7 @@ const Login = () => {
                   className="btn-block z-depth-1a"
                   onClick={handleSubmit}
                 >
-                  Sign in
+                  Register
                 </MDBBtn>
               </div>
               <p className="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
@@ -135,14 +119,7 @@ const Login = () => {
                 </MDBBtn>
               </div>
             </MDBCardBody>
-            <MDBModalFooter className="mx-5 pt-3 mb-1">
-              <p className="font-small grey-text d-flex justify-content-end">
-                Not a member?
-                <a href="/register" className="blue-text ml-1">
-                  Sign Up
-                </a>
-              </p>
-            </MDBModalFooter>
+            <MDBModalFooter className="mx-5 pt-3 mb-1"></MDBModalFooter>
           </MDBCard>
         </MDBCol>
       </MDBRow>

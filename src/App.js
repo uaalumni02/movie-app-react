@@ -5,6 +5,7 @@ import UserContextProvider from "./contexts/UserContext";
 
 import Login from "./pages/login";
 import Register from "./pages/register";
+import AllMovies from "./pages/allMovies";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/register" exact component={Register} />
+            <Route exact path="/allMovies" component={AllMovies} />
           </Switch>
         </UserContextProvider>
       </BrowserRouter>

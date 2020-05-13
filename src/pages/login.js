@@ -34,7 +34,6 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         if (
           response.success === false ||
           response.data.user.role === "standard"
@@ -42,7 +41,7 @@ const Login = () => {
           setInvalidLogin("Invalid username or password");
         } else {
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", response.data.user._id);
+          localStorage.setItem("user", response.data.user[0].id);
           setLoggedIn(true);
         }
       })
@@ -55,6 +54,7 @@ const Login = () => {
       <br></br>
       <br></br>
       <br></br>
+      {loggedIn ? <Redirect to="/allMovies/" /> : ""}
       <MDBRow>
         <MDBCol md="5" className="col-md-4 mx-auto">
           <MDBCard className="loginCard">

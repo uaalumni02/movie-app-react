@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import settings from "../config/configData";
-
-import { MDBListGroup, MDBListGroupItem, MDBContainer } from "mdbreact";
+import NavbarPage from "../components/navBar";
+import Accordion from "../components/Accordion";
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -18,7 +18,6 @@ const AllMovies = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response.data)
         setMovies(response.data);
       })
       .catch((error) => console.error("Error:", error));
@@ -26,29 +25,18 @@ const AllMovies = () => {
   useEffect(() => {
     fetchMovieData();
   }, []);
+
   return (
-    <MDBContainer>
-      <center>
-        <h1>All Movies</h1>
-      </center>
+    <div>
       {movies.map((movie) => (
-        <MDBListGroup
-          className="col-md-4 mx-auto"
-          style={{ width: "22rem" }}
-          value={movie.id}
-          key={movie.id}
-        >
-          <MDBListGroupItem style={{ marginBottom: "10px" }}>
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">Title:  {movie.name}</h5>
-            </div>
-            <p className="mb-1">Rating:  {movie.rating}</p>
-            <p className="mb-1">Release: {movie.release}</p>
-            <p className="mb-1">Directors: {movie.directors}</p>
-          </MDBListGroupItem>
-        </MDBListGroup>
+        <Accordion
+          title={movie.name}
+          release={movie.release}
+          directors={movie.directors}
+          rated={movie.rating}
+        />
       ))}
-    </MDBContainer>
+    </div>
   );
 };
 export default AllMovies;

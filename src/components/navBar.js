@@ -32,16 +32,13 @@ class NavbarPage extends Component {
       <>
         <MDBNavbar className="navBar fixed-top" color="grey" dark expand="lg">
           <MDBNavbarBrand>
-            <strong className="white-text">TZ</strong>
+            <strong className="white-text">Movie App</strong>
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav left>
               <MDBNavItem>
-                <MDBNavLink>Add</MDBNavLink>
-              </MDBNavItem>
-              <MDBNavItem>
-                <MDBNavLink onClick={this.logOut}></MDBNavLink>
+                <MDBNavLink to={"/package/"}>Add Movie</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
                 <MDBNavLink to={"/"} onClick={this.logOut}>

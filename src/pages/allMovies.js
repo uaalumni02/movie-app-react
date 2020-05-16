@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import settings from "../config/configData";
+import { UserContext } from "../contexts/UserContext";
 import NavbarPage from "../components/navBar";
 import Accordion from "../components/Accordion";
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
+  const { loggedIn } = useContext(UserContext);
 
   const fetchMovieData = () => {
     const token = localStorage.getItem("token");
@@ -27,7 +29,11 @@ const AllMovies = () => {
   }, []);
 
   return (
-    <div>
+    <>
+      <div>{loggedIn ? <NavbarPage /> : ""}</div>
+      <br></br>
+      <br></br> <br></br>
+      <br></br>
       {movies.map((movie) => (
         <Accordion
           title={movie.name}
@@ -36,7 +42,7 @@ const AllMovies = () => {
           rated={movie.rating}
         />
       ))}
-    </div>
+    </>
   );
 };
 export default AllMovies;

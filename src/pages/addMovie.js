@@ -26,7 +26,7 @@ const Movie = () => {
       body: JSON.stringify({
         name,
         //radio bttns not working, should I have ratings route in db?
-        rating: "R",
+        rating,
         release,
         directors,
       }),
@@ -95,6 +95,7 @@ const Movie = () => {
               <Form.Check
                 type="radio"
                 label="G"
+                value="G"
                 name="rating"
                 id="formHorizontalRadios1"
                 onChange={(e) => setRating(e.target.value)}
@@ -102,6 +103,7 @@ const Movie = () => {
               <Form.Check
                 type="radio"
                 label="PG-13"
+                value="PG-13"
                 name="rating"
                 id="formHorizontalRadios2"
                 onChange={(e) => setRating(e.target.value)}
@@ -109,6 +111,7 @@ const Movie = () => {
               <Form.Check
                 type="radio"
                 label="R"
+                value="R"
                 name="rating"
                 id="formHorizontalRadios3"
                 onChange={(e) => setRating(e.target.value)}

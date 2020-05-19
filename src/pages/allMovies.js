@@ -24,9 +24,29 @@ const AllMovies = () => {
       })
       .catch((error) => console.error("Error:", error));
   };
+
   useEffect(() => {
     fetchMovieData();
   }, []);
+
+  const deleteMovie = (movie) => {
+    const token = localStorage.getItem("token");
+    const bearer = "Bearer " + token;
+    fetch(`${settings.apiBaseUrl}/api/movie/` + movie.id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.success) {
+          fetchMovieData();
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   return (
     <>
@@ -41,6 +61,9 @@ const AllMovies = () => {
           release={movie.release}
           directors={movie.directors}
           rated={movie.rating}
+          onClick={() => {
+            deleteMovie(movie);
+          }}
         />
       ))}
     </>

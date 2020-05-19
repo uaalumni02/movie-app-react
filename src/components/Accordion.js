@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import "./Accordion.css";
 // import Chevron from "./Chevron";
+import ActionBtn from "./ActionBtn";
 
 const Accordion = (props) => {
   const [setActive, setActiveState] = useState("");
   const [setHeight, SetHeightState] = useState("0px");
-
   const content = useRef(null);
 
   const toggleAccordion = () => {
@@ -29,6 +29,8 @@ const Accordion = (props) => {
         <p>Released: {props.release}</p>
         <p>Directed By: {props.directors}</p>
         <p>Rated: {props.rated}</p>
+        <ActionBtn label="Edit" />
+        <ActionBtn onClick={props.onClick} label="Delete" />
         <div
           className="accordion_text"
           dangerouslySetInnerHTML={{ __html: props.content }}

@@ -7,6 +7,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import AllMovies from "./pages/allMovies";
 import AddMovie from "./pages/addMovie";
+import EditMovie from "./pages/editMovie"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/register" exact component={Register} />
             <Route exact path="/allMovies" component={AllMovies} />
             <Route exact path="/addMovie" component={AddMovie} />
+            <Route exact path="/editMovie/:id" component={EditMovie} />
           </Switch>
         </UserContextProvider>
       </BrowserRouter>

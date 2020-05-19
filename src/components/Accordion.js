@@ -29,7 +29,7 @@ const Accordion = (props) => {
         <p>Released: {props.release}</p>
         <p>Directed By: {props.directors}</p>
         <p>Rated: {props.rated}</p>
-        <ActionBtn label="Edit" />
+        <ActionBtn onClick={props.onClick} label="Edit" />
         <ActionBtn onClick={props.onClick} label="Delete" />
         <div
           className="accordion_text"

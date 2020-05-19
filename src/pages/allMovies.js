@@ -64,6 +64,7 @@ const AllMovies = () => {
           onClick={() => {
             deleteMovie(movie);
           }}
+          onClick={() => (window.location.href = `/editMovie/${movie.id}`)}
         />
       ))}
     </>

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import NavbarPage from "../components/navBar";
 import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
 import { Button, Form, Row, Col } from "react-bootstrap";
 
-const Movie = () => {
+const EditMovie = () => {
   const [name, setName] = useState("");
   const [rating, setRating] = useState("");
   const [release, setRelease] = useState("");
@@ -13,12 +13,39 @@ const Movie = () => {
   const [movieConfirmation, setMovieConfirmation] = useState(false);
   const { loggedIn } = useContext(UserContext);
 
-  const addMovie = (event) => {
+  const fetchMovieData = () => {
     const token = localStorage.getItem("token");
     const bearer = "Bearer " + token;
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf("/") + 1);
+    fetch(`${settings.apiBaseUrl}/api/movie/` + id, {
+      method: "GET",
+      headers: {
+        Authorization: bearer,
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response.data[0].rating);
+        setName(response.data[0].name);
+        setRating(response.data[0].rating);
+        setRelease(response.data[0].release);
+        setDirectors(response.data[0].directors);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+  useEffect(() => {
+    fetchMovieData();
+  }, []);
+
+  const updateMovie = (event) => {
     event.preventDefault();
-    fetch(`${settings.apiBaseUrl}/api/movie/`, {
-      method: "POST",
+    const token = localStorage.getItem("token");
+    const bearer = "Bearer " + token;
+    const url = window.location.pathname;
+    const id = url.substring(url.lastIndexOf("/") + 1);
+    fetch(`${settings.apiBaseUrl}/api/movie/` + id, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: bearer,
@@ -32,14 +59,13 @@ const Movie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data);
-        if (response.data) {
+        if (response.success === true) {
           setMovieConfirmation(true);
         }
       })
-
       .catch((error) => console.error("Error:", error));
   };
+
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
@@ -56,11 +82,11 @@ const Movie = () => {
             <Form.Control
               type="name"
               placeholder="Name"
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </Col>
         </Form.Group>
-
         <Form.Group as={Row} controlId="formHorizontalPassword">
           <Form.Label column sm={2}>
             Director(s)
@@ -69,6 +95,7 @@ const Movie = () => {
             <Form.Control
               type="directors"
               placeholder="Director(s)"
+              value={directors}
               onChange={(e) => setDirectors(e.target.value)}
             />
           </Col>
@@ -81,6 +108,7 @@ const Movie = () => {
             <Form.Control
               type="release"
               placeholder="Release Year"
+              value={release}
               onChange={(e) => setRelease(e.target.value)}
             />
           </Col>
@@ -117,10 +145,10 @@ const Movie = () => {
               />
             </Col>
           </Form.Group>
-        </fieldset>
+        </fieldset>{" "}
         <Form.Group as={Row}>
           <Col sm={{ span: 10, offset: 2 }}>
-            <Button onClick={addMovie} type="submit">
+            <Button type="submit" onClick={updateMovie}>
               Submit
             </Button>
           </Col>
@@ -129,4 +157,5 @@ const Movie = () => {
     </>
   );
 };
-export default Movie;
+
+export default EditMovie;

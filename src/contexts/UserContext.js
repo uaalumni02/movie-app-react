@@ -7,7 +7,7 @@ const UserContextProvider = props => {
   const [user, setUser] = useState("");
   const checkLogin = () => {
     const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("userName");
+    const userName = localStorage.getItem("user");
     if (token) {
       setLoggedIn(true);
       setUser(userName);

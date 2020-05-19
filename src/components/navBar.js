@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import "../static/navBar.css";
+import "../static/navBar.css";
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -38,7 +38,10 @@ class NavbarPage extends Component {
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav left>
               <MDBNavItem>
-                <MDBNavLink to={"/package/"}>Add Movie</MDBNavLink>
+                <MDBNavLink to={"/addMovie/"}>Add Movie</MDBNavLink>
+              </MDBNavItem>
+              <MDBNavItem>
+                <MDBNavLink to={"/allMovies/"}>Movies</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
                 <MDBNavLink to={"/"} onClick={this.logOut}>

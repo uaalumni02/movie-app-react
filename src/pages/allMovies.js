@@ -36,6 +36,7 @@ const AllMovies = () => {
       <br></br>
       {movies.map((movie) => (
         <Accordion
+          key={movie.id}
           title={movie.name}
           release={movie.release}
           directors={movie.directors}

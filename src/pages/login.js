@@ -34,6 +34,7 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((response) => {
+        console.log(response.data)
         if (
           response.success === false ||
           response.data.user.role === "standard"

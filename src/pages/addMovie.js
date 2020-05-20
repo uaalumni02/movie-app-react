@@ -38,6 +38,7 @@ const Movie = () => {
   const addMovie = (event) => {
     const token = localStorage.getItem("token");
     const bearer = "Bearer " + token;
+    const userId = localStorage.getItem("user");
     event.preventDefault();
     fetch(`${settings.apiBaseUrl}/api/movie/`, {
       method: "POST",
@@ -50,11 +51,12 @@ const Movie = () => {
         rating: ratingId,
         release,
         directors,
+        userId
       }),
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(ratingId)
+        console.log(userId)
         if (response.data) {
           setMovieConfirmation(true);
         }

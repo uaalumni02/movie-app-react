@@ -4,6 +4,7 @@ import NavbarPage from "../components/navBar";
 import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
 import { Button, Form, Row, Col } from "react-bootstrap";
+import "../static/addMovie.css";
 
 const Movie = () => {
   const [name, setName] = useState("");
@@ -69,9 +70,10 @@ const Movie = () => {
       <br></br>
       <br></br> <br></br>
       <br></br>
+      <br></br>
       {movieConfirmation ? <Redirect to={`/allMovies/`} /> : ""}
       <Form>
-        <Form.Group as={Row} controlId="formHorizontalEmail">
+        <Form.Group as={Row} controlId="formHorizontalName">
           <Form.Label column sm={2}>
             Name
           </Form.Label>
@@ -84,7 +86,7 @@ const Movie = () => {
           </Col>
         </Form.Group>
 
-        <Form.Group as={Row} controlId="formHorizontalPassword">
+        <Form.Group as={Row} controlId="formHorizontalDirectors">
           <Form.Label column sm={2}>
             Director(s)
           </Form.Label>
@@ -96,7 +98,7 @@ const Movie = () => {
             />
           </Col>
         </Form.Group>
-        <Form.Group as={Row} controlId="formHorizontalPassword">
+        <Form.Group as={Row} controlId="formHorizontalRelease">
           <Form.Label column sm={2}>
             Release Year
           </Form.Label>

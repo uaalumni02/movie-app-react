@@ -21,7 +21,7 @@ const Accordion = (props) => {
 
   return (
     <div className="accordion_section">
-      <button className={`accordion ${setActive}`} onClick={toggleAccordion}>
+      <button  className={`accordion ${setActive}`} onClick={() => {toggleAccordion(); props.ratingId() }}>
         <p className="accordion_title">{props.title}</p>
         <Chevron className={`${setRotate}`} width={10} fill={"#777"} />
       </button>
@@ -33,7 +33,7 @@ const Accordion = (props) => {
         <p>Released: {props.release}</p>
         <p>Directed By: {props.directors}</p>
         <p>Rated: {props.rated}</p>
-        <ActionBtn onClick={props.onClick} label="Edit" />
+        <ActionBtn onClick={props.edit} label="Edit" />
         <ActionBtn onClick={props.onClick} label="Delete" />
         <div
           className="accordion_text"

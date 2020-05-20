@@ -6,6 +6,7 @@ import Accordion from "../components/Accordion";
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
+  const [rating, setRating] = useState("");
   const { loggedIn } = useContext(UserContext);
 
   const fetchMovieData = () => {
@@ -48,6 +49,23 @@ const AllMovies = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  const fetchRatingData = (movie) => {
+    const token = localStorage.getItem("token");
+    const bearer = "Bearer " + token;
+    fetch(`${settings.apiBaseUrl}/api/rating/` + movie.rating, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setRating(response.data[0].rating);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
@@ -60,11 +78,14 @@ const AllMovies = () => {
           title={movie.name}
           release={movie.release}
           directors={movie.directors}
-          rated={movie.rating}
+          rated={rating}
           onClick={() => {
             deleteMovie(movie);
           }}
-          onClick={() => (window.location.href = `/editMovie/${movie.id}`)}
+          ratingId={() => {
+            fetchRatingData(movie);
+          }}
+          edit={() => (window.location.href = `/editMovie/${movie.id}`)}
         />
       ))}
     </>

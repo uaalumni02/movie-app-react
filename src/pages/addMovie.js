@@ -14,7 +14,7 @@ const Movie = () => {
   const [movieConfirmation, setMovieConfirmation] = useState(false);
   const { loggedIn } = useContext(UserContext);
 
-  const fetchRatingData = (movie) => {
+  const fetchRatingData = () => {
     const token = localStorage.getItem("token");
     const bearer = "Bearer " + token;
     fetch(`${settings.apiBaseUrl}/api/rating/`, {
@@ -51,12 +51,11 @@ const Movie = () => {
         rating: ratingId,
         release,
         directors,
-        userId
+        userId,
       }),
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(userId)
         if (response.data) {
           setMovieConfirmation(true);
         }

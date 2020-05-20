@@ -72,6 +72,7 @@ const AllMovies = () => {
       <br></br>
       <br></br> <br></br>
       <br></br>
+      <br></br>
       {movies.map((movie) => (
         <Accordion
           key={movie.id}

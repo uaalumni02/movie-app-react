@@ -46,7 +46,7 @@ const Login = () => {
       <br></br>
       <br></br>
       <br></br>
-      {loggedIn ? <Redirect to="/allMovies/" /> : ""}
+      {loggedIn ? <Redirect to="/addMovie/" /> : ""}
       <MDBRow>
         <MDBCol md="5" className="col-md-4 mx-auto">
           <MDBCard className="loginCard">

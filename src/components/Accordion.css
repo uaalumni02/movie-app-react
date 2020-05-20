@@ -6,7 +6,7 @@
     background-color: #eee;
     color: #444;
     cursor: pointer;
-    padding: 18px;
+    padding: 28px;
     display: flex;
     align-items: center;
     border: none;
@@ -32,6 +32,8 @@
     background-color: white;
     overflow: hidden;
     transition: max-height 0.6s ease;
+    padding-left: 28px;
+    padding-top: 10px;
   }
   .rotate {
     transform: rotate(90deg);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import NavbarPage from "../components/navBar";
 import settings from "../config/configData";
@@ -7,11 +7,33 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 
 const Movie = () => {
   const [name, setName] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRatings] = useState([]);
   const [release, setRelease] = useState("");
   const [directors, setDirectors] = useState("");
+  const [ratingId, setRatingId] = useState("");
   const [movieConfirmation, setMovieConfirmation] = useState(false);
   const { loggedIn } = useContext(UserContext);
+
+  const fetchRatingData = (movie) => {
+    const token = localStorage.getItem("token");
+    const bearer = "Bearer " + token;
+    fetch(`${settings.apiBaseUrl}/api/rating/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setRatings(response.data);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    fetchRatingData();
+  }, []);
 
   const addMovie = (event) => {
     const token = localStorage.getItem("token");
@@ -25,14 +47,14 @@ const Movie = () => {
       },
       body: JSON.stringify({
         name,
-        rating,
+        rating: ratingId,
         release,
         directors,
       }),
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data);
+        console.log(ratingId)
         if (response.data) {
           setMovieConfirmation(true);
         }
@@ -91,30 +113,19 @@ const Movie = () => {
               Rating
             </Form.Label>
             <Col sm={10}>
-              <Form.Check
-                type="radio"
-                label="G"
-                value="G"
-                name="rating"
-                id="formHorizontalRadios1"
-                onChange={(e) => setRating(e.target.value)}
-              />
-              <Form.Check
-                type="radio"
-                label="PG-13"
-                value="PG-13"
-                name="rating"
-                id="formHorizontalRadios2"
-                onChange={(e) => setRating(e.target.value)}
-              />
-              <Form.Check
-                type="radio"
-                label="R"
-                value="R"
-                name="rating"
-                id="formHorizontalRadios3"
-                onChange={(e) => setRating(e.target.value)}
-              />
+              {rating.map((ratings) => {
+                return (
+                  <Form.Check
+                    key={ratings.id}
+                    type="radio"
+                    label={ratings.rating}
+                    value={ratings.id}
+                    name="rating"
+                    id="formHorizontalRadios1"
+                    onChange={(e) => setRatingId(e.target.value)}
+                  />
+                );
+              })}
             </Col>
           </Form.Group>
         </fieldset>

@@ -26,7 +26,6 @@ const EditMovie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data[0].rating);
         setName(response.data[0].name);
         setRating(response.data[0].rating);
         setRelease(response.data[0].release);

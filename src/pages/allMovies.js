@@ -3,6 +3,8 @@ import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
 import NavbarPage from "../components/navBar";
 import Accordion from "../components/Accordion";
+import "../static/allMovies.css"
+import { MDBCol } from "mdbreact";
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -71,6 +73,19 @@ const AllMovies = () => {
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
       <br></br>
       <br></br> <br></br>
+      <br></br>
+      <br></br>
+      <MDBCol className="search" md="6">
+        <form className="form-inline mt-4 mb-4">
+          <input
+            className="form-control form-control-sm ml-3 w-75"
+            type="text"
+            placeholder="Search"
+            aria-label="Search"
+            // onChange={handleInput}
+          />
+        </form>
+      </MDBCol>
       <br></br>
       <br></br>
       {movies.map((movie) => (

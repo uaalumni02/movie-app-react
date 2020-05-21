@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import NavbarPage from "../components/navBar";
 import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
+import "../static/editMovie.css"
 import { Button, Form, Row, Col } from "react-bootstrap";
 
 const EditMovie = () => {

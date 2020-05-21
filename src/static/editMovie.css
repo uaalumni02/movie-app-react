@@ -1,15 +1,6 @@
-.form-group {
-    margin-bottom: 1rem;
-    padding-left: 28px;
-}
-
-.col-sm-10 { 
-    padding-right: 100px;
-}
-
 .form-control {
     display: block;
-    width: 98%;
+    width: 97%;
     height: calc(1.5em + .75rem + 2px);
     padding: .375rem .75rem;
     font-size: 1rem;

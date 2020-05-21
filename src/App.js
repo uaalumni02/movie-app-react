@@ -12,7 +12,7 @@ import EditMovie from "./pages/editMovie"
 function App() {
   return (
     <div className="App">
-      <header className="App-header"></header>
+      {/* <header className="App-header"></header> */}
       <BrowserRouter>
         <UserContextProvider>
           <Switch>

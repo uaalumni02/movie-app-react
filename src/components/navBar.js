@@ -44,7 +44,7 @@ class NavbarPage extends Component {
                 <MDBNavLink to={"/allMovies/"}>Movies</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink to={"/"} onClick={this.logOut}>
+                <MDBNavLink exact to={"/"} onClick={this.logOut}>
                   Log Out
                 </MDBNavLink>
               </MDBNavItem>

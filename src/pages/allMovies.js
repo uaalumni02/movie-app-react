@@ -3,12 +3,13 @@ import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
 import NavbarPage from "../components/navBar";
 import Accordion from "../components/Accordion";
-import "../static/allMovies.css"
+import "../static/allMovies.css";
 import { MDBCol } from "mdbreact";
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
   const [rating, setRating] = useState("");
+  const [search, setSearch] = useState("");
   const { loggedIn } = useContext(UserContext);
 
   const fetchMovieData = () => {
@@ -68,6 +69,14 @@ const AllMovies = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  const handleInput = (e) => {
+    setSearch(e.target.value);
+  };
+
+  let filteredMovies = movies.filter((movie) => {
+    return movie.name.toLowerCase().includes(search.toLowerCase());
+  });
+
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
@@ -82,13 +91,13 @@ const AllMovies = () => {
             type="text"
             placeholder="Search"
             aria-label="Search"
-            // onChange={handleInput}
+            onChange={handleInput}
           />
         </form>
       </MDBCol>
       <br></br>
       <br></br>
-      {movies.map((movie) => (
+      {filteredMovies.map((movie) => (
         <Accordion
           key={movie.id}
           title={movie.name}

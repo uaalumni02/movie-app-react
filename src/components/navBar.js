@@ -30,7 +30,7 @@ class NavbarPage extends Component {
   render() {
     return (
       <>
-        <MDBNavbar className="navBar fixed-top" color="grey" dark expand="lg">
+        <MDBNavbar className="navBar fixed-top" color="Royal blue" dark expand="lg">
           <MDBNavbarBrand>
             <strong className="white-text">Movie App</strong>
           </MDBNavbarBrand>

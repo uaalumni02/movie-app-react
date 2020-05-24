@@ -57,7 +57,7 @@ const Login = () => {
                 </h3>
               </div>
               <MDBInput
-                label="Your username"
+                label="Your username or email"
                 onChange={(e) =>
                   setUsername(e.target.value.toLowerCase().trim())
                 }

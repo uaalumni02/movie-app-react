@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import settings from "../config/configData";
 import { Redirect } from "react-router-dom";
 
+import Facebook from "../components/Facebook";
+
 import {
   MDBContainer,
   MDBRow,
@@ -34,7 +36,6 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.data)
         if (
           response.success === false ||
           response.data.user.role === "standard"
@@ -106,7 +107,8 @@ const Login = () => {
                 or Sign in with:
               </p>
               <div className="row my-3 d-flex justify-content-center">
-                <MDBBtn
+                <Facebook />
+                {/* <MDBBtn
                   type="button"
                   color="white"
                   rounded
@@ -133,7 +135,7 @@ const Login = () => {
                   className="z-depth-1a"
                 >
                   <MDBIcon fab icon="google-plus-g" className="blue-text" />
-                </MDBBtn>
+                </MDBBtn> */}
               </div>
             </MDBCardBody>
             <MDBModalFooter className="mx-5 pt-3 mb-1">

@@ -57,6 +57,7 @@ const Movie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
+        console.log(rating)
         if (response.data) {
           setMovieConfirmation(true);
         }

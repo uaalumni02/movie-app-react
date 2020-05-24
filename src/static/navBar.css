@@ -1,7 +1,7 @@
-li.nav-item {
+li.nav-item  {
   padding: 5px;
   font-size: 18px;
   font-weight: 700;
+  border: 1px;
 }
-
 

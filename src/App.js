@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import UserContextProvider from "./contexts/UserContext";
 
@@ -12,7 +11,6 @@ import EditMovie from "./pages/editMovie"
 function App() {
   return (
     <div className="App">
-      {/* <header className="App-header"></header> */}
       <BrowserRouter>
         <UserContextProvider>
           <Switch>

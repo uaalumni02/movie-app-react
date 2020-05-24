@@ -38,7 +38,7 @@ class NavbarPage extends Component {
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav left>
               <MDBNavItem>
-                <MDBNavLink to={"/addMovie/"}>Add Movie</MDBNavLink>
+                <MDBNavLink  to={"/addMovie/"}>Add Movie</MDBNavLink>
               </MDBNavItem>
               <MDBNavItem>
                 <MDBNavLink to={"/allMovies/"}>Movies</MDBNavLink>

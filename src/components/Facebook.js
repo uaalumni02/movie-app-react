@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import settings from "../config/configData";
 import FacebookLogin from "react-facebook-login";
 
 const Facebook = () => {
+  const [username, setUsername] = useState("");
+  const [password] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const responseFacebook = (response) => {
-    console.log(response);
-    if (response) {
-      localStorage.setItem("token", response.accessToken);
-      localStorage.setItem("user", response.userID);
-      setLoggedIn(true);
-    }
+    fetch(`${settings.apiBaseUrl}/api/fbuser/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: response.email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setUsername(response.email);
+        localStorage.setItem("token", response.userdata.token);
+        localStorage.setItem("user", response.userdata.id);
+        setLoggedIn(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
-
-  const componentClicked = () => console.log("clicked");
 
   let fbContent;
   fbContent = (
@@ -22,7 +37,6 @@ const Facebook = () => {
       appId="587806085193445"
       autoLoad={true}
       fields="name,email,picture"
-      onClick={componentClicked}
       callback={responseFacebook}
     />
   );

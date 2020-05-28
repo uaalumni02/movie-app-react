@@ -9,6 +9,7 @@ const Facebook = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const responseFacebook = (response) => {
+    // console.log(response)
     fetch(`${settings.apiBaseUrl}/api/fbuser/`, {
       method: "POST",
       headers: {
@@ -22,8 +23,8 @@ const Facebook = () => {
       .then((res) => res.json())
       .then((response) => {
         setUsername(response.email);
-        localStorage.setItem("token", response.userdata.token);
-        localStorage.setItem("user", response.userdata.id);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", response.data.id);
         setLoggedIn(true);
       })
       .catch((error) => {

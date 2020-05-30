@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import settings from "../config/configData";
 import { Redirect } from "react-router-dom";
+import reducer from "../reducer/reducer";
+import initialState from "../store/store";
 
 import Facebook from "../components/Facebook";
 
@@ -12,16 +14,11 @@ import {
   MDBCardBody,
   MDBInput,
   MDBBtn,
-  MDBIcon,
   MDBModalFooter,
 } from "mdbreact";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [InvalidLogin, setInvalidLogin] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [state, dispatch] = useReducer(reducer, initialState.login);
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch(`${settings.apiBaseUrl}/api/user/login`, {
@@ -40,15 +37,30 @@ const Login = () => {
           response.success === false ||
           response.data.user.role === "standard"
         ) {
-          setInvalidLogin("Invalid username or password");
+          dispatch({
+            field: "InvalidLogin",
+            value: "Invalid username, password or pending approval",
+          });
         } else {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("user", response.data.user[0].id);
-          setLoggedIn(true);
+          dispatch({
+            field: "loggedIn",
+            value: true,
+          });
         }
       })
       .catch((error) => console.error("Error:", error));
   };
+
+  const onChange = (e) => {
+    dispatch({
+      field: e.target.name,
+      value: e.target.value.toLowerCase().trim(),
+    });
+  };
+
+  const { username, password, InvalidLogin, loggedIn } = state;
 
   return (
     <MDBContainer>
@@ -68,9 +80,9 @@ const Login = () => {
               </div>
               <MDBInput
                 label="Your username"
-                onChange={(e) =>
-                  setUsername(e.target.value.toLowerCase().trim())
-                }
+                name="username"
+                value={username}
+                onChange={onChange}
                 group
                 type="email"
                 validate
@@ -79,7 +91,9 @@ const Login = () => {
               />
               <MDBInput
                 label="Your password"
-                onChange={(e) => setPassword(e.target.value.trim())}
+                name="password"
+                value={password}
+                onChange={onChange}
                 group
                 type="password"
                 validate
@@ -108,34 +122,6 @@ const Login = () => {
               </p>
               <div className="row my-3 d-flex justify-content-center">
                 <Facebook />
-                {/* <MDBBtn
-                  type="button"
-                  color="white"
-                  rounded
-                  className="mr-md-3 z-depth-1a"
-                >
-                  <MDBIcon
-                    fab
-                    icon="facebook-f"
-                    className="blue-text text-center"
-                  />
-                </MDBBtn>
-                <MDBBtn
-                  type="button"
-                  color="white"
-                  rounded
-                  className="mr-md-3 z-depth-1a"
-                >
-                  <MDBIcon fab icon="twitter" className="blue-text" />
-                </MDBBtn>
-                <MDBBtn
-                  type="button"
-                  color="white"
-                  rounded
-                  className="z-depth-1a"
-                >
-                  <MDBIcon fab icon="google-plus-g" className="blue-text" />
-                </MDBBtn> */}
               </div>
             </MDBCardBody>
             <MDBModalFooter className="mx-5 pt-3 mb-1">

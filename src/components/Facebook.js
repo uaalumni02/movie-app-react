@@ -9,7 +9,6 @@ const Facebook = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const responseFacebook = (response) => {
-    // console.log(response)
     fetch(`${settings.apiBaseUrl}/api/fbuser/`, {
       method: "POST",
       headers: {

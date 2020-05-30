@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import settings from "../config/configData";
 import { Redirect } from "react-router-dom";
+import reducer from "../reducer/reducer";
+import initialState from "../store/store";
 
 import {
   MDBContainer,
@@ -15,10 +17,7 @@ import {
 } from "mdbreact";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [state, dispatch] = useReducer(reducer, initialState.register);
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch(`${settings.apiBaseUrl}/api/user/`, {
@@ -35,10 +34,23 @@ const Login = () => {
       .then((response) => {
         localStorage.setItem("token", response.userdata.token);
         localStorage.setItem("user", response.userdata._id);
-        setLoggedIn(true);
+        dispatch({
+          field: "loggedIn",
+          value: true
+        });
       })
       .catch((error) => console.error("Error:", error));
   };
+
+  const onChange = e => {
+    dispatch({
+      field: e.target.name,
+      value: e.target.value.toLowerCase().trim()
+    });
+  };
+
+  const { username, password, loggedIn } = state;
+
 
   return (
     <MDBContainer>
@@ -58,9 +70,8 @@ const Login = () => {
               </div>
               <MDBInput
                 label="Your username or email"
-                onChange={(e) =>
-                  setUsername(e.target.value.toLowerCase().trim())
-                }
+                name="username"
+                value={username}
                 group
                 type="email"
                 validate
@@ -69,7 +80,8 @@ const Login = () => {
               />
               <MDBInput
                 label="Your password"
-                onChange={(e) => setPassword(e.target.value.trim())}
+                name="password"
+                value={password}
                 group
                 type="password"
                 validate

@@ -9,7 +9,6 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import "../static/addMovie.css";
 
 const Movie = () => {
-  const [ratingId, setRatingId] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState.addMovie);
   const { loggedIn } = useContext(UserContext);
 
@@ -81,7 +80,7 @@ const Movie = () => {
     rating,
     release,
     directors,
-    // ratingId,
+    ratingId,
     movieConfirmation,
   } = state;
 
@@ -152,7 +151,7 @@ const Movie = () => {
                     value={ratings.id}
                     name="ratingId"
                     id="formHorizontalRadios1"
-                    onChange={(e) => setRatingId(e.target.value)}
+                    onChange={onChange}
                   />
                 );
               })}

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useReducer, useEffect } from "react";
+import React, { useContext, useReducer, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import NavbarPage from "../components/navBar";
 import settings from "../config/configData";

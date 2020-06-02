@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useReducer, useEffect, useContext } from "react";
 import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
 import NavbarPage from "../components/navBar";
 import Accordion from "../components/Accordion";
 import "../static/allMovies.css";
+import reducer from "../reducer/reducer";
+import initialState from "../store/store";
 import { MDBCol } from "mdbreact";
 
 const AllMovies = () => {
-  const [movies, setMovies] = useState([]);
-  const [rating, setRating] = useState("");
-  const [search, setSearch] = useState("");
+  const [state, dispatch] = useReducer(reducer, initialState.allMovies);
   const { loggedIn } = useContext(UserContext);
-
   const fetchMovieData = () => {
     const token = localStorage.getItem("token");
     const bearer = "Bearer " + token;
@@ -24,7 +23,10 @@ const AllMovies = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        setMovies(response.data);
+        dispatch({
+          field: "movies",
+          value: response.data,
+        });
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -64,14 +66,22 @@ const AllMovies = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        setRating(response.data[0].rating);
+        dispatch({
+          field: "rating",
+          value: response.data[0].rating,
+        });
       })
       .catch((error) => console.error("Error:", error));
   };
 
   const handleInput = (e) => {
-    setSearch(e.target.value);
+    dispatch({
+      field: "search",
+      value: e.target.value,
+    });
   };
+
+  const { movies, rating, search } = state;
 
   let filteredMovies = movies.filter((movie) => {
     return movie.name.toLowerCase().includes(search.toLowerCase());

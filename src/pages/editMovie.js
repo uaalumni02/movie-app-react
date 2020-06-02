@@ -1,20 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useReducer, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import NavbarPage from "../components/navBar";
 import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
-import "../static/editMovie.css"
+import reducer from "../reducer/reducer";
+import initialState from "../store/store";
+import "../static/editMovie.css";
 import { Button, Form, Row, Col } from "react-bootstrap";
 
 const EditMovie = () => {
-  const [name, setName] = useState("");
   const [rating, setRating] = useState("");
-  const [release, setRelease] = useState("");
-  const [directors, setDirectors] = useState("");
-  const [ratingData, setRatingData] = useState([]);
-  const [movieConfirmation, setMovieConfirmation] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState.editMovie);
   const { loggedIn } = useContext(UserContext);
-
   const fetchRatingData = () => {
     const token = localStorage.getItem("token");
     const bearer = "Bearer " + token;
@@ -27,7 +24,10 @@ const EditMovie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        setRatingData(response.data);
+        dispatch({
+          field: "ratingData",
+          value: response.data,
+        });
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -50,11 +50,23 @@ const EditMovie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        // console.log(response.data[0].rating)
-        setName(response.data[0].name);
         setRating(response.data[0].rating);
-        setRelease(response.data[0].release);
-        setDirectors(response.data[0].directors);
+        dispatch({
+          field: "name",
+          value: response.data[0].name,
+        });
+        // dispatch({
+        //   field: "rating",
+        //   value: response.data[0].rating,
+        // });
+        dispatch({
+          field: "release",
+          value: response.data[0].release,
+        });
+        dispatch({
+          field: "directors",
+          value: response.data[0].directors,
+        });
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -81,10 +93,29 @@ const EditMovie = () => {
       .then((res) => res.json())
       .then((response) => {
         if (response.success === true) {
-          setMovieConfirmation(true);
+          dispatch({
+            field: "movieConfirmation",
+            value: true,
+          });
         }
       })
       .catch((error) => console.error("Error:", error));
+  };
+
+  const {
+    name,
+    // rating,
+    release,
+    directors,
+    ratingData,
+    movieConfirmation,
+  } = state;
+
+  const onChange = (e) => {
+    dispatch({
+      field: e.target.name,
+      value: e.target.value,
+    });
   };
 
   return (
@@ -101,10 +132,12 @@ const EditMovie = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="name"
+              value={name}
               type="name"
               placeholder="Name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={onChange}
             />
           </Col>
         </Form.Group>
@@ -114,10 +147,12 @@ const EditMovie = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="directors"
+              value={directors}
               type="directors"
               placeholder="Director(s)"
               value={directors}
-              onChange={(e) => setDirectors(e.target.value)}
+              onChange={onChange}
             />
           </Col>
         </Form.Group>
@@ -127,10 +162,12 @@ const EditMovie = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="release"
+              value={release}
               type="release"
               placeholder="Release Year"
               value={release}
-              onChange={(e) => setRelease(e.target.value)}
+              onChange={onChange}
             />
           </Col>
         </Form.Group>

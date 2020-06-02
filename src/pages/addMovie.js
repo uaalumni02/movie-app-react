@@ -1,18 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useReducer, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import NavbarPage from "../components/navBar";
 import settings from "../config/configData";
 import { UserContext } from "../contexts/UserContext";
+import reducer from "../reducer/reducer";
+import initialState from "../store/store";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import "../static/addMovie.css";
 
 const Movie = () => {
-  const [name, setName] = useState("");
-  const [rating, setRatings] = useState([]);
-  const [release, setRelease] = useState("");
-  const [directors, setDirectors] = useState("");
   const [ratingId, setRatingId] = useState("");
-  const [movieConfirmation, setMovieConfirmation] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState.addMovie);
   const { loggedIn } = useContext(UserContext);
 
   const fetchRatingData = () => {
@@ -27,7 +25,10 @@ const Movie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        setRatings(response.data);
+        dispatch({
+          field: "rating",
+          value: response.data,
+        });
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -57,14 +58,33 @@ const Movie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response)
         if (response.data) {
-          setMovieConfirmation(true);
+          dispatch({
+            field: "movieConfirmation",
+            value: true,
+          });
         }
       })
 
       .catch((error) => console.error("Error:", error));
   };
+
+  const onChange = (e) => {
+    dispatch({
+      field: e.target.name,
+      value: e.target.value,
+    });
+  };
+
+  const {
+    name,
+    rating,
+    release,
+    directors,
+    // ratingId,
+    movieConfirmation,
+  } = state;
+
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
@@ -80,9 +100,11 @@ const Movie = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="name"
+              value={name}
               type="name"
               placeholder="Name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={onChange}
             />
           </Col>
         </Form.Group>
@@ -93,9 +115,11 @@ const Movie = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="directors"
+              value={directors}
               type="directors"
               placeholder="Director(s)"
-              onChange={(e) => setDirectors(e.target.value)}
+              onChange={onChange}
             />
           </Col>
         </Form.Group>
@@ -105,9 +129,11 @@ const Movie = () => {
           </Form.Label>
           <Col sm={10}>
             <Form.Control
+              name="release"
+              value={release}
               type="release"
               placeholder="Release Year"
-              onChange={(e) => setRelease(e.target.value)}
+              onChange={onChange}
             />
           </Col>
         </Form.Group>
@@ -124,7 +150,7 @@ const Movie = () => {
                     type="radio"
                     label={ratings.rating}
                     value={ratings.id}
-                    name="rating"
+                    name="ratingId"
                     id="formHorizontalRadios1"
                     onChange={(e) => setRatingId(e.target.value)}
                   />

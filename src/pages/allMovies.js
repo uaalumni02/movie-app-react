@@ -90,10 +90,6 @@ const AllMovies = () => {
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
-      <br></br>
-      <br></br> <br></br>
-      <br></br>
-      <br></br>
       <MDBCol className="search" md="6">
         <form className="form-inline mt-4 mb-4">
           <input
@@ -105,8 +101,6 @@ const AllMovies = () => {
           />
         </form>
       </MDBCol>
-      <br></br>
-      <br></br>
       {filteredMovies.map((movie) => (
         <Accordion
           key={movie.id}

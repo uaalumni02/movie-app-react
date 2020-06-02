@@ -87,12 +87,8 @@ const Movie = () => {
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
-      <br></br>
-      <br></br> <br></br>
-      <br></br>
-      <br></br>
       {movieConfirmation ? <Redirect to={`/allMovies/`} /> : ""}
-      <Form>
+      <Form className="addMovie">
         <Form.Group as={Row} controlId="formHorizontalName">
           <Form.Label column sm={2}>
             Name

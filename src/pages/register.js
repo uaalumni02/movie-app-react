@@ -36,28 +36,16 @@ const Login = () => {
         localStorage.setItem("user", response.userdata._id);
         dispatch({
           field: "loggedIn",
-          value: true
+          value: true,
         });
       })
       .catch((error) => console.error("Error:", error));
   };
 
-  const onChange = e => {
-    dispatch({
-      field: e.target.name,
-      value: e.target.value.toLowerCase().trim()
-    });
-  };
-
   const { username, password, loggedIn } = state;
-
 
   return (
     <MDBContainer>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
       {loggedIn ? <Redirect to="/addMovie/" /> : ""}
       <MDBRow>
         <MDBCol md="5" className="col-md-4 mx-auto">

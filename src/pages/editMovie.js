@@ -119,11 +119,8 @@ const EditMovie = () => {
   return (
     <>
       <div>{loggedIn ? <NavbarPage /> : ""}</div>
-      <br></br>
-      <br></br> <br></br>
-      <br></br>
       {movieConfirmation ? <Redirect to={`/allMovies/`} /> : ""}
-      <Form>
+      <Form className="editMovie">
         <Form.Group as={Row} controlId="formHorizontalEmail">
           <Form.Label column sm={2}>
             Name

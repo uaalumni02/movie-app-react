@@ -3,7 +3,7 @@ import settings from "../config/configData";
 import { Redirect } from "react-router-dom";
 import reducer from "../reducer/reducer";
 import initialState from "../store/store";
-
+import "../static/login.css";
 import Facebook from "../components/Facebook";
 
 import {
@@ -64,10 +64,6 @@ const Login = () => {
 
   return (
     <MDBContainer>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
       {loggedIn ? <Redirect to="/allMovies/" /> : ""}
       <MDBRow>
         <MDBCol md="5" className="col-md-4 mx-auto">

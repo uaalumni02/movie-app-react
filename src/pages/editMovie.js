@@ -9,7 +9,6 @@ import "../static/editMovie.css";
 import { Button, Form, Row, Col } from "react-bootstrap";
 
 const EditMovie = () => {
-  const [rating, setRating] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState.editMovie);
   const { loggedIn } = useContext(UserContext);
   const fetchRatingData = () => {
@@ -50,15 +49,14 @@ const EditMovie = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        setRating(response.data[0].rating);
         dispatch({
           field: "name",
           value: response.data[0].name,
         });
-        // dispatch({
-        //   field: "rating",
-        //   value: response.data[0].rating,
-        // });
+        dispatch({
+          field: "rating",
+          value: response.data[0].rating,
+        });
         dispatch({
           field: "release",
           value: response.data[0].release,
@@ -104,7 +102,7 @@ const EditMovie = () => {
 
   const {
     name,
-    // rating,
+    rating,
     release,
     directors,
     ratingData,
@@ -181,6 +179,8 @@ const EditMovie = () => {
                 const checked = rating === ratings.id;
                 return (
                   <Form.Check
+                    name="rating"
+                    value={rating}
                     type="radio"
                     key={ratings.id}
                     label={ratings.rating}
@@ -188,7 +188,7 @@ const EditMovie = () => {
                     name="rating"
                     id="formHorizontalRadios1"
                     checked={checked}
-                    onChange={(e) => setRating(e.target.value)}
+                    onChange={onChange}
                   />
                 );
               })}
